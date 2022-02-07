@@ -1,0 +1,18 @@
+apiVersion: custompodautoscaler.com/v1
+kind: CustomPodAutoscaler
+metadata:
+  name: http-request
+spec:
+  template:
+    spec:
+      containers:
+      - name: http-request
+        image: http-request:latest
+        imagePullPolicy: IfNotPresent
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: demo1
+  config:
+    - name: interval
+      value: "10000"
