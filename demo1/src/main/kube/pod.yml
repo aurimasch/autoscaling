@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo1
+  labels:
+    app: demo1
+spec:
+  containers:
+    - name: demo1
+      image: autoscale/demo1
+      imagePullPolicy: IfNotPresent
+      ports:
+      - containerPort: 8080
+      #resources:
+        #requests:
+          #memory: "256Mi"
+          #cpu: "250m"
+        #limits:
+          #memory: "256Mi"
+          #cpu: "500m"
