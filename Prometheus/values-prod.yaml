@@ -203,7 +203,7 @@ alertmanager:
     ##
     size: 2Gi
     
-    storageClassName: manual
+    storageClassName: manual2
     
     ## alertmanager data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
