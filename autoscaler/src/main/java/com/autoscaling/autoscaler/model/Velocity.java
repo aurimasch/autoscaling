@@ -13,17 +13,21 @@ public class Velocity {
     private int increaseFactor;
     private int decreaseFactor;
 
+    public static final int MAX_THROUGHPUT_VALUE = 72;
+
+    public static final int TOLERABLE_TIME_PER_SINGLE_REPLICA = 75;
+
     {
-        BigDecimal maxThroughput = BigDecimal.valueOf(72);
+        BigDecimal maxThroughput = BigDecimal.valueOf(MAX_THROUGHPUT_VALUE);
         BigDecimal totalTimeIncrease = BigDecimal.valueOf(ScalingService.MAX_REPLICAS)
                 .subtract(BigDecimal.valueOf(ScalingService.MIN_REPLICAS))
-                .multiply(BigDecimal.valueOf(75));
+                .multiply(BigDecimal.valueOf(TOLERABLE_TIME_PER_SINGLE_REPLICA));
 
         this.tolerableIncreaseVelocity = maxThroughput.divide(totalTimeIncrease, 2, RoundingMode.HALF_UP).doubleValue();
 
         BigDecimal totalTimeDecrease = BigDecimal.valueOf(ScalingService.MAX_REPLICAS)
                 .subtract(BigDecimal.valueOf(ScalingService.MIN_REPLICAS))
-                .multiply(BigDecimal.valueOf(75));
+                .multiply(BigDecimal.valueOf(TOLERABLE_TIME_PER_SINGLE_REPLICA));
 
         this.tolerableDecreaseVelocity = maxThroughput.divide(totalTimeDecrease, 2, RoundingMode.HALF_UP).doubleValue();
 

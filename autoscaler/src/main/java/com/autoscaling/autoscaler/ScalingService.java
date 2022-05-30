@@ -22,30 +22,30 @@ public class ScalingService {
     public static final Integer MAX_REPLICAS = 8;
     public static final Integer MIN_REPLICAS = 1;
 
-    public Integer scale(Integer currentReplicasTotal) {
+    public Integer scale(Integer currentReplicasFromAutoscaler) {
 
         Integer currentReplicas = valuesService.getLastPodCount();
         Velocity txVelocity = valuesService.getTXVelocity();
         AvgCPU lastKnownAvgCPU = valuesService.getLastKnownCPU();
 
-        if (!currentReplicas.equals(currentReplicasTotal)) {
-            System.out.println("Mismatch. Current total replicas " + currentReplicasTotal + " known replicas "+ currentReplicas +" Lets cooldown..");
-            return currentReplicasTotal;
+        if (!currentReplicas.equals(currentReplicasFromAutoscaler)) {
+            System.out.println("Mismatch. Current total replicas " + currentReplicasFromAutoscaler + " known replicas "+ currentReplicas +" Lets cooldown..");
+            return currentReplicasFromAutoscaler;
         }
 
         if (shouldUpScale(lastKnownAvgCPU, txVelocity)) {
 
             if (currentReplicas >= MAX_REPLICAS)
-                return currentReplicasTotal;
+                return currentReplicasFromAutoscaler;
 
             if (!coolDownService.isUpScaleCoolDownPeriodOver()) {
                 System.out.println("Still trying to cooldown");
-                return currentReplicasTotal;
+                return currentReplicasFromAutoscaler;
             }
 
             if (txVelocity.getVelocityLevel() == VelocityLevel.MAJOR_DECREASE || txVelocity.getVelocityLevel() == VelocityLevel.MODERATE_DECREASE) {
                 System.out.println("Velocity decreasing, skipping upscale");
-                return currentReplicasTotal;
+                return currentReplicasFromAutoscaler;
             }
 
 

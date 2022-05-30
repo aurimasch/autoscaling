@@ -11,15 +11,15 @@ public class CoolDownService {
 
     private Timestamp lastTimeUpScaled;
     private Timestamp lastTimeDownScaled;
-    private Integer upScaleCoolDownPeriodSeconds = 30;
-    private Integer downScaleCoolDownPeriodSeconds = 30;
+    private static Integer UPSCALE_COOLDOWN_PERIOD_IN_SECONDS = 30;
+    private Integer DOWNSCALE_COOLDOWN_PERIOD_IN_SECONDS = 30;
 
     public boolean isUpScaleCoolDownPeriodOver() {
         if (lastTimeUpScaled == null)
             return true;
 
         Timestamp now = DateUtils.now();
-        Timestamp then = DateUtils.fromDate(lastTimeUpScaled, Calendar.SECOND, upScaleCoolDownPeriodSeconds);
+        Timestamp then = DateUtils.fromDate(lastTimeUpScaled, Calendar.SECOND, UPSCALE_COOLDOWN_PERIOD_IN_SECONDS);
 
         return then.before(now);
     }
@@ -29,7 +29,7 @@ public class CoolDownService {
             return true;
 
         Timestamp now = DateUtils.now();
-        Timestamp then = DateUtils.fromDate(lastTimeDownScaled, Calendar.SECOND, downScaleCoolDownPeriodSeconds);
+        Timestamp then = DateUtils.fromDate(lastTimeDownScaled, Calendar.SECOND, DOWNSCALE_COOLDOWN_PERIOD_IN_SECONDS);
 
         return then.before(now);
     }
@@ -89,12 +89,12 @@ public class CoolDownService {
 
     private void setUpScaleCooldown(Integer upsScaleCoolDownPeriod) {
         System.out.println("Setting cooldown period upscale: " + upsScaleCoolDownPeriod);
-        this.upScaleCoolDownPeriodSeconds = upsScaleCoolDownPeriod;
+        this.UPSCALE_COOLDOWN_PERIOD_IN_SECONDS = upsScaleCoolDownPeriod;
     }
 
     private void setDownScaleCooldown(Integer downScaleCoolDownPeriodSeconds) {
         System.out.println("Setting cooldown downscale: " + downScaleCoolDownPeriodSeconds);
-        this.downScaleCoolDownPeriodSeconds = downScaleCoolDownPeriodSeconds;
+        this.DOWNSCALE_COOLDOWN_PERIOD_IN_SECONDS = downScaleCoolDownPeriodSeconds;
     }
 
 }
