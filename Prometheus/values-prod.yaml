@@ -202,7 +202,7 @@ alertmanager:
     ## alertmanager data Persistent Volume size
     ##
     size: 2Gi
-    storageClass: standard
+    storageClass: "-"
     storageClassName: manual2
     
     ## alertmanager data Persistent Volume Storage Class
@@ -851,7 +851,7 @@ server:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: standard
+    storageClass: "-"
     storageClassName: manual
 
     ## Prometheus server data Persistent Volume Binding Mode
