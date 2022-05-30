@@ -31,8 +31,7 @@ public class PrometheusClient {
     private final ExecutorService totalCpuReader = Executors.newSingleThreadExecutor();
     private final ExecutorService podCountReader = Executors.newSingleThreadExecutor();
     private final ExecutorService podUpTimeReader = Executors.newSingleThreadExecutor();
-    //avg(rate(container_cpu_usage_seconds_total{container="demo1"}[1m]))
-    //count(kube_pod_info{pod=~"demo1-.*"})
+    
     @Value("${prometheus.url}")
     private String prometheusURL;
 
@@ -61,6 +60,7 @@ public class PrometheusClient {
 
                         AvgCPU avgCPU = readAvgCPULoad();
                         BTCount btCount = readMetrics();
+                        BTTotal btTotal = readBTTotal();
                         PodCount podCount = readPodCount();
                         SLA sla = readSLA();
                         PodUpTime podUpTime = readPodUpTime();
@@ -73,12 +73,13 @@ public class PrometheusClient {
                         metricsService.processSLA(sla);
                         metricsService.process(btCount);
 
-                        fileWriter.writeAll(avgCPU, btCount, podCount, sla, podUpTime);
+                        fileWriter.writeAll(avgCPU, btCount, podCount, sla, podUpTime, btTotal, avgResponse);
 
                         Thread.sleep(3000);
 
                 } catch (Exception e) {
                     System.out.println("Reading metrics" + e.getMessage());
+                    e.printStackTrace();
                 } finally {
                     try {
                         Thread.sleep(3000);
@@ -96,7 +97,7 @@ public class PrometheusClient {
         Long difference = now.getTime() - startDate.getTime();
         Long minutes = (difference / 1000 / 60) + 1;
 
-        RequestEntity<Void> request = buildRequest("sum(rate(request_duration_bucket{le=\"2.0\"}["+minutes+"m]))/ignoring(le)sum(rate(request_duration_count["+minutes+"m]))*100");
+        RequestEntity<Void> request = buildRequest("sum(rate(request_duration_bucket{le=\"1.0\", app=\"demo1\"}["+minutes+"m]))/ignoring(le)sum(rate(request_duration_count{app=\"demo1\"}["+minutes+"m]))*100");
 
         ResponseEntity<HashMap<String, Object>> result = restTemplate.exchange(request, responseType);
         SLA sla = parseSLA(result.getBody());
@@ -106,7 +107,7 @@ public class PrometheusClient {
     }
 
     private AvgResponse readAvgResponseTime() {
-        RequestEntity<Void> request = buildRequest("sum(rate(request_duration_sum[30s]))/sum(rate(request_duration_count[30s]))*1000");
+        RequestEntity<Void> request = buildRequest("sum(rate(request_duration_sum{app=\"demo1\"}[30s]))/sum(rate(request_duration_count{app=\"demo1\"}[30s]))*1000");
 
         ResponseEntity<HashMap<String, Object>> result = restTemplate.exchange(request, responseType);
         AvgResponse avgResponse = parseAvgResponse(result.getBody());
@@ -116,7 +117,7 @@ public class PrometheusClient {
     }
 
     private BTCount readMetrics()  {
-        RequestEntity<Void> request = buildRequest("sum by (app) (rate(bt_count_total[30s]))");
+        RequestEntity<Void> request = buildRequest("sum by (demo1) (rate(bt_count_total{app=\"demo1\"}[30s]))");
         ResponseEntity<HashMap<String, Object>> result = restTemplate.exchange(request, responseType);
         BTCount btCount = parseBTCount(result.getBody());
         System.out.println(btCount);
@@ -171,6 +172,15 @@ public class PrometheusClient {
         return podUpTime;
     }
 
+    private BTTotal readBTTotal()  {
+        RequestEntity<Void> request = buildRequest("sum by (demo1) (bt_count_total{app=\"demo1\"})");
+        ResponseEntity<HashMap<String, Object>> result = restTemplate.exchange(request, responseType);
+        System.out.println(result.getBody());
+        BTTotal btCount = parseBTTotal(result.getBody());
+        System.out.println(btCount);
+        return btCount;
+    }
+
 
     private SLA parseSLA(HashMap<String, Object> responseBody) {
         JSONArray result = parsePROMQLResponse(responseBody);
@@ -186,7 +196,10 @@ public class PrometheusClient {
         JSONArray result = parsePROMQLResponse(responseBody);
         return new BTCount(new Timestamp(result.getLong(0) * 1000), result.getDouble(1));
     }
-
+    private BTTotal parseBTTotal(HashMap<String, Object> responseBody) {
+        JSONArray result = parsePROMQLResponse(responseBody);
+        return new BTTotal(new Timestamp(result.getLong(0) * 1000), result.getDouble(1));
+    }
     private AvgCPU parseAvgCPU(HashMap<String, Object> responseBody) {
         JSONArray result = parsePROMQLResponse(responseBody);
         return new AvgCPU(new Timestamp(result.getLong(0) * 1000), result.getDouble(1));
@@ -210,9 +223,5 @@ public class PrometheusClient {
                 .getJSONObject(0)
                 .getJSONArray("value");
     }
-
-
-
-
 
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.annotation.Target;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URI;
@@ -54,7 +55,7 @@ public class MetricsService {
 
         Double offset30SecValue = fetchValue(OFFSET_SECONDS);
 
-        BigDecimal currentVelocity = BigDecimal.valueOf(btCount.getValue()).subtract(BigDecimal.valueOf(offset30SecValue)).divide(BigDecimal.valueOf(OFFSET_SECONDS), 2, RoundingMode.HALF_UP);
+        BigDecimal currentVelocity = BigDecimal.valueOf(btCount.getValue()).subtract(BigDecimal.valueOf(offset30SecValue)).divide(BigDecimal.valueOf(OFFSET_SECONDS), 5, RoundingMode.HALF_UP);
 
         Velocity velocity = Velocity.velocity(currentVelocity.doubleValue(), valuesService.getLastPodCount());
 
@@ -65,11 +66,15 @@ public class MetricsService {
     }
 
     public void processSLA(SLA sla) {
+       
        SLAStatus slaStatus = getSLAStatus(sla);
-       CPUSettings cpuSettings = cpuAdjustor.recalculateUpScalingCPUValues(valuesService.getCPUSettings(), slaStatus);
-
+       CPUSettings cpuSettings = cpuAdjustor.recalculateUpScalingCPUValues(valuesService.getCPUSettings(), slaStatus );
+       
+       valuesService.publishSla(sla);
        valuesService.publishCPUSettings(cpuSettings);
        valuesService.publishSLAStatus(slaStatus);
+       valuesService.publishSlaFactor(new SlaFactor(BigDecimal.valueOf(sla.getValue()).divide(BigDecimal.valueOf(TARGET_SLA), 8, RoundingMode.HALF_UP).doubleValue()));
+
     }
 
     private SLAStatus getSLAStatus(SLA sla) {

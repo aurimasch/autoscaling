@@ -2,17 +2,21 @@ package com.autoscaling.autoscaler;
 
 import org.springframework.stereotype.Service;
 
+import com.autoscaling.autoscaler.model.Velocity;
+
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 
 
 @Service
 public class CoolDownService {
+    
 
     private Timestamp lastTimeUpScaled;
     private Timestamp lastTimeDownScaled;
-    private static Integer UPSCALE_COOLDOWN_PERIOD_IN_SECONDS = 30;
-    private Integer DOWNSCALE_COOLDOWN_PERIOD_IN_SECONDS = 30;
+    private static Integer UPSCALE_COOLDOWN_PERIOD_IN_SECONDS = 20;
+    private Integer DOWNSCALE_COOLDOWN_PERIOD_IN_SECONDS = 20;
 
     public boolean isUpScaleCoolDownPeriodOver() {
         if (lastTimeUpScaled == null)
@@ -34,50 +38,22 @@ public class CoolDownService {
         return then.before(now);
     }
 
-
-    public void setCoolDownPeriod(Integer targetReplicas, Integer currentReplicas) {
+    public void setCoolDownPeriod(Integer targetReplicas, Integer currentReplicas, Velocity txVelocity) {
         if (upScale(targetReplicas, currentReplicas)) {
             lastTimeUpScaled = DateUtils.now();
-            if (Math.abs(targetReplicas - currentReplicas) == 1) {
-                setUpScaleCooldown(30);
-                setDownScaleCooldown(30);
-                return;
+            setUpScaleCooldown((40-10 * txVelocity.getIncreaseFactor()));
+            setDownScaleCooldown(40 );
+            return;
             }
-
-            if ((Math.abs(targetReplicas - currentReplicas) == 2)) {
-                setUpScaleCooldown(40);
-                setDownScaleCooldown(30);
-                return;
-            }
-
-            if ((Math.abs(targetReplicas - currentReplicas) >= 3)) {
-                setUpScaleCooldown(60);
-                setDownScaleCooldown(30);
-                return;
-            }
-        }
-
+        
         if (downScale(targetReplicas, currentReplicas)) {
             lastTimeDownScaled = DateUtils.now();
-            if (Math.abs(targetReplicas - currentReplicas) == 1) {
                 setUpScaleCooldown(10);
-                setDownScaleCooldown(30);
+                setDownScaleCooldown(10 * txVelocity.getDecreaseFactor());
                 return;
             }
 
-            if ((Math.abs(targetReplicas - currentReplicas) == 2)) {
-                setUpScaleCooldown(10);
-                setDownScaleCooldown(30);
-                return;
-            }
-
-            if ((Math.abs(targetReplicas - currentReplicas) >= 3)) {
-                setUpScaleCooldown(10);
-                setDownScaleCooldown(30);
-                return;
-            }
         }
-    }
 
     private boolean upScale(Integer targetReplicas, Integer currentReplicas) {
         return targetReplicas > currentReplicas;

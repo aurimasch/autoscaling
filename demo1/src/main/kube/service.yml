@@ -5,10 +5,8 @@ metadata:
 spec:
   selector:
     app: demo1
-  type: NodePort
   ports:
     - name: http
       protocol: TCP
-      port: 8080
-      nodePort: 30036
-      targetPort: 8080
+      port: 30036
+      targetPort: 30036

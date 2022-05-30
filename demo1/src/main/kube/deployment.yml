@@ -15,19 +15,20 @@ spec:
         app: demo1
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
+        prometheus.io/port: "30036"
         prometheus.io/path: /actuator/prometheus
     spec:
       containers:
         - name: demo1
-          image: autoscale/demo1
-          imagePullPolicy: IfNotPresent
+          image: olesiapoz/demo1
+          imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 30036
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8080
+              port: 30036
             initialDelaySeconds: 10
             periodSeconds: 20
             timeoutSeconds: 3
@@ -36,7 +37,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8080
+              port: 30036
             initialDelaySeconds: 10
             periodSeconds: 20
             timeoutSeconds: 3
@@ -49,3 +50,4 @@ spec:
             limits:
               memory: "1024Mi"
               cpu: "1000m"
+

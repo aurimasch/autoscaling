@@ -69,7 +69,7 @@ alertmanager:
   prefixURL: ""
 
   ## External URL which can access alertmanager
-  baseURL: "http://localhost:9093"
+  baseURL: "http://phd-demo1.swedencentral.cloudapp.azure.com:9093"
 
   ## Additional alertmanager container environment variable
   ## For instance to add a http_proxy
@@ -202,7 +202,7 @@ alertmanager:
     ## alertmanager data Persistent Volume size
     ##
     size: 2Gi
-    storageClass: standard
+    storageClass: "-"
     storageClassName: manual2
     
     ## alertmanager data Persistent Volume Storage Class
@@ -851,7 +851,7 @@ server:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: standard
+    storageClass: "-"
     storageClassName: manual
 
     ## Prometheus server data Persistent Volume Binding Mode
@@ -1300,7 +1300,7 @@ serverFiles:
       - job_name: prometheus
         static_configs:
           - targets:
-            - localhost:9090
+            - phd-demo1.swedencentral.cloudapp.azure.com:9090
 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)

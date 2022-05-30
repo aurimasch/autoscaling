@@ -12,7 +12,6 @@ public class BTCount {
         this.value = value;
     }
 
-
     public Timestamp getTimestamp() {
         return timestamp;
     }

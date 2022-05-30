@@ -1,12 +1,10 @@
 helm install prometheus -f values.yaml prometheus-community/prometheus
 
-helm upgrade --install prometheus --set-file extraScrapeConfigs=extraScrapeConfigs.yml prometheus-community/prometheus
+helm upgrade --install -f values.yaml --set-file extraScrapeConfigs=extraScrapeConfigs.yml prometheus  prometheus-community/prometheus
 
-kubectl patch ds prometheus-node-exporte --type "json" -p '[{"op": "remove", "path" : "/spec/template/spec/containers/0/volumeMounts/2/mountPropagation"}]'
+kubectl patch ds prometheus-node-exporter --type "json" -p '[{"op": "remove", "path" : "/spec/template/spec/containers/0/volumeMounts/2/mountPropagation"}]'
 
 kubectl edit svc prometheus-server
-
-
 
 To enable outside kubernetes:
 

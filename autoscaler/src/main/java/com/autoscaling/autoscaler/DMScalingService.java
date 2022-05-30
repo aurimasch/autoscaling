@@ -13,8 +13,8 @@ public class DMScalingService {
     @Autowired
     ValuesService valuesService;
 
-    private static final double CPU_THRESHOLD = 55;
-    private static final double RESPONSE_TIME_THRESHOLD = 1000;
+    private static final double CPU_THRESHOLD = 60;
+    private static final double RESPONSE_TIME_THRESHOLD = 500;
 
     private double avgThroughputCurrent = 1.00;
     private double avgThroughputPrevious = 1.00;
@@ -25,7 +25,7 @@ public class DMScalingService {
 
     private int conservativeConstant = 5;
 
-    public static final Integer MAX_REPLICAS = 8;
+    public static final Integer MAX_REPLICAS = 22;
     public static final Integer MIN_REPLICAS = 1;
 
     private Timestamp lastTimeChecked;
@@ -33,6 +33,7 @@ public class DMScalingService {
 
 
     public Integer scale(Integer currentReplicasTotal) {
+        System.out.println("DM is running");
 
         if (!isTimeToScale())
              return currentReplicasTotal;
@@ -58,7 +59,7 @@ public class DMScalingService {
                     last2IntervalAdd = 2;
 
                     int totalReplicas = replicas + replIncr;
-                    System.out.println("Scaling up, current replicas " +replicas +", total: "+totalReplicas);
+                    System.out.println("DM Scaling up, current replicas " +replicas +", total: "+totalReplicas);
 
                     if (totalReplicas > MAX_REPLICAS)
                         totalReplicas = MAX_REPLICAS;
@@ -92,7 +93,7 @@ public class DMScalingService {
 
                 if (replDecr == 1 && replicas != 1) {
                     int totalReplicas = replicas - replDecr;
-                    System.out.println("Scaling down, current replicas " +replicas +", total: "+totalReplicas);
+                    System.out.println("DM Scaling down, current replicas " +replicas +", total: "+totalReplicas);
 
                     if (totalReplicas < MIN_REPLICAS)
                         totalReplicas = MIN_REPLICAS;

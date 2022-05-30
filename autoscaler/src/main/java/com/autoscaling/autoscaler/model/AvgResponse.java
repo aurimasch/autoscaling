@@ -29,4 +29,15 @@ public class AvgResponse {
         this.value = value;
         return this;
     }
+    @Override
+    public String toString() {
+        return "BTTotal{" +
+                "timestamp=" + timestamp +
+                ", value=" + value +
+                '}';
+    }
+    public String toCSVLine() {
+        return timestamp+","+value;
+
+    }
 }

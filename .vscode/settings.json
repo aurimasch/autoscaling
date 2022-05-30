@@ -1,0 +1,8 @@
+{
+    "java.project.sourcePaths": [
+        "/src/main/java",
+        "src/main/java"
+    ],
+    "java.dependency.packagePresentation": "hierarchical",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

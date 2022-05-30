@@ -4,6 +4,8 @@ import com.autoscaling.autoscaler.model.AvgCPU;
 import com.autoscaling.autoscaler.model.Velocity;
 import com.autoscaling.autoscaler.model.VelocityLevel;
 import com.autoscaling.autoscaler.utils.LimitedQueue;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,11 +14,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class VolatilityService {
+    @Autowired
+    private ValuesService valuesService;
 
     private LimitedQueue<Velocity> velocities = new LimitedQueue<>(60);
 
     public void updateVelocity(Velocity velocity, AvgCPU avgCPU) {
-        if (avgCPU.getValue() > 0.80)
+        if (avgCPU.getValue() > valuesService.getCPUSettings().getDownscalingValues().getUpper())
             velocities.add(Velocity.defaultVelocity());
         else
             velocities.add(velocity);
@@ -28,8 +32,9 @@ public class VolatilityService {
 
     public boolean isVolatile() {
 
-        if (velocities.isEmpty())
-            return false;
+        if (velocities.isEmpty()){
+            System.out.println("Traffic is NOT  volatile");
+            return true;}
 
         List<VelocityLevel> volatilityPattern = new ArrayList<>();
 
@@ -41,7 +46,7 @@ public class VolatilityService {
         for (Velocity velocity : majorVelocities) {
                 addToVolatilityPattern(volatilityPattern, velocity);
         }
-
+        System.out.println("Traffic is  volatile = " + (volatilityPattern.size() >= 3));
         return volatilityPattern.size() >= 3;
 
     }
