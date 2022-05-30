@@ -7,12 +7,12 @@ spec:
     spec:
       containers:
       - name: http-request
-        image: http-request:latest
-        imagePullPolicy: IfNotPresent
+        image: olesiapoz/http-request:latest
+        imagePullPolicy: Always
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: demo1
   config:
     - name: interval
-      value: "10000"
+      value: "5000"

@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+
 @Service
 public class ValuesService {
 
@@ -16,8 +17,9 @@ public class ValuesService {
     private final AtomicReference<AvgCPU> lastKnownAvgCPU = new AtomicReference<>();
     private final AtomicReference<CPUSettings> cpuSettingsHolder = new AtomicReference<>(new CPUSettings(CPUValues.defaultUpscalingValues(), CPUValues.defaultDownscalingValues()));
     private final AtomicReference<BTCount> throughput = new AtomicReference<>();
-
+    private final AtomicReference<SlaFactor> slaFactor = new AtomicReference<>();
     private final AtomicReference<SLAStatus> slaStatusAtomicReference = new AtomicReference<>();
+    private final AtomicReference<SLA> sla = new AtomicReference<>();
 
     public synchronized void publishPodCount(PodCount podCount) {
         lastKnownPodNumber.set(podCount.getValue());
@@ -75,9 +77,20 @@ public class ValuesService {
         return throughput.get();
     }
 
+    public synchronized void publishSlaFactor(SlaFactor slaValue) {
+        slaFactor.set(slaValue);
+    }
 
+    public synchronized SlaFactor getSlaFactor() {
+        return slaFactor.get();
+    }
+    public synchronized void publishSla(SLA lastSlaValue) {
+        sla.set(lastSlaValue);
+    }
 
-
+    public synchronized SLA getSla() {
+        return sla.get();
+    }
 
 
 }

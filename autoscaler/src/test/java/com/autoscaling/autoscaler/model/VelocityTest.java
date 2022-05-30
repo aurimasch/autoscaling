@@ -9,7 +9,7 @@ class VelocityTest {
 
     @Test
     public void shouldBeMajorIncrease() {
-        assertEquals(VelocityLevel.MAJOR_INCREASE, new Velocity(0.5, 1).getVelocityLevel());
+        assertEquals(VelocityLevel.MAJOR_INCREASE, new Velocity(100.0, 1).getVelocityLevel());
     }
 
     @Test
@@ -19,12 +19,12 @@ class VelocityTest {
 
     @Test
     public void shouldBeFactorOf3() {
-        assertEquals(3, new Velocity(0.30, 1).getIncreaseFactor());
+        assertEquals(3, new Velocity(110.0, 1).getIncreaseFactor());
     }
 
     @Test
     public void shouldBeFactorOf1() {
-        assertEquals(1, new Velocity(0.01, 1).getIncreaseFactor());
+        assertEquals(1, new Velocity(0.1, 1).getIncreaseFactor());
     }
 
 }

@@ -13,11 +13,11 @@ public class CPUValues {
     }
 
     public static CPUValues defaultUpscalingValues() {
-        return new CPUValues(0.55, 0.45 ,0.35);
+        return new CPUValues(0.75, 0.70,0.65);
     }
 
     public static CPUValues defaultDownscalingValues() {
-        return new CPUValues(0.20, 0.30 ,0.40);
+        return new CPUValues(0.35, 0.30 ,0.25);
     }
 
     public double getUpper() {

@@ -12,23 +12,23 @@ import java.util.Calendar;
 @Service
 public class CPUAdjustor {
 
-    private static final double UPSCALING_UPPER_MIN = 0.30;
-    private static final double UPSCALING_MID_MIN = 0.20;
-    private static final double UPSCALING_LOWER_MIN = 0.10;
+    private static final double UPSCALING_UPPER_MIN = 0.70; //under norm
+    private static final double UPSCALING_MID_MIN = 0.65;
+    public static final double UPSCALING_LOWER_MIN = 0.60;
 
-    private static final double UPSCALING_UPPER_MAX = 0.80;
-    private static final double UPSCALING_MID_MAX = 0.70;
-    private static final double UPSCALING_LOWER_MAX = 0.60;
+    public static final double UPSCALING_UPPER_MAX = 0.85; //norm
+    private static final double UPSCALING_MID_MAX = 0.80;
+    private static final double UPSCALING_LOWER_MAX = 0.75;
 
-    public static final double DOWNSCALING_UPPER_MIN = 0.10;
-    public static final double DOWNSCALING_MID_MIN = 0.20;
-    public static final double DOWNSCALING_LOWER_MIN = 0.30;
+    public static final double DOWNSCALING_UPPER_MIN = 0.30;
+    public static final double DOWNSCALING_MID_MIN = 0.25;
+    public static final double DOWNSCALING_LOWER_MIN = 0.20; //under norm
 
     public static final double DOWNSCALING_UPPER_MAX = 0.40;
-    public static final double DOWNSCALING_MID_MAX = 0.50;
-    public static final double DOWNSCALING_LOWER_MAX = 0.60;
+    public static final double DOWNSCALING_MID_MAX = 0.35;
+    public static final double DOWNSCALING_LOWER_MAX = 0.30; // norn
 
-    private static final Integer ADJUSTMENT_INTERVAL_IN_SECONDS = 3 * 60;
+    private static final Integer ADJUSTMENT_INTERVAL_IN_SECONDS = 10 * 60;
 
     private Timestamp lastAdjustmentTime = DateUtils.now();
 
@@ -43,13 +43,13 @@ public class CPUAdjustor {
             return cpuSettings;
 
         if (slaStatus == SLAStatus.ABOVE_TARGET) {
-            CPUSettings newIncreasedCPUValues = adjustCPUValues(cpuSettings, 0.05, 0.03);
+            CPUSettings newIncreasedCPUValues = adjustCPUValues(cpuSettings, 0.03, 0.02);
             System.out.println("Old upscaling CPU values "+cpuSettings.getUpscalingValues()+" new CPU values "+newIncreasedCPUValues.getUpscalingValues()+". Old downscaling CPU values "+cpuSettings.getDownscalingValues()+" new CPU values "+newIncreasedCPUValues.getDownscalingValues());
             return newIncreasedCPUValues;
         }
 
         if (slaStatus == SLAStatus.BELOW_TARGET) {
-            CPUSettings newDecreasedCPUValues = adjustCPUValues(cpuSettings, -0.10, -0.06);
+            CPUSettings newDecreasedCPUValues = adjustCPUValues(cpuSettings, -0.05, -0.03);
             System.out.println("Old upscaling CPU values "+cpuSettings.getUpscalingValues()+" new CPU values "+newDecreasedCPUValues.getUpscalingValues()+". Old downscaling CPU values "+cpuSettings.getDownscalingValues()+" new CPU values "+newDecreasedCPUValues.getDownscalingValues());
             return newDecreasedCPUValues;
         }
@@ -93,9 +93,6 @@ public class CPUAdjustor {
 
         if (upperValue < UPSCALING_UPPER_MIN)
             upperValue = UPSCALING_UPPER_MIN;
-
-
-
 
         return new CPUValues(upperValue, midValue, lowerValue);
     }

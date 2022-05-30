@@ -10,9 +10,11 @@ metric:
   timeout: 2500
   http:
     method: "GET"
-    url: "http://host.docker.internal:8080/api/count"
+    url: "http://autoscaler:8080/api/count"
     successCodes:
       - 200
     parameterMode: query
-minReplicas: 0
+minReplicas: 1
+maxReplicas: 22
 runMode: "per-resource"
+logVerbosity: 3

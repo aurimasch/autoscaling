@@ -13,7 +13,7 @@ public class Velocity {
     private int increaseFactor;
     private int decreaseFactor;
 
-    public static final int MAX_THROUGHPUT_VALUE = 72;
+    public static final int MAX_THROUGHPUT_VALUE = 23;
 
     public static final int TOLERABLE_TIME_PER_SINGLE_REPLICA = 75;
 
@@ -23,13 +23,13 @@ public class Velocity {
                 .subtract(BigDecimal.valueOf(ScalingService.MIN_REPLICAS))
                 .multiply(BigDecimal.valueOf(TOLERABLE_TIME_PER_SINGLE_REPLICA));
 
-        this.tolerableIncreaseVelocity = maxThroughput.divide(totalTimeIncrease, 2, RoundingMode.HALF_UP).doubleValue();
+        this.tolerableIncreaseVelocity = (ScalingService.MAX_REPLICAS).doubleValue() * maxThroughput.divide(totalTimeIncrease, 2, RoundingMode.HALF_UP).doubleValue();
 
         BigDecimal totalTimeDecrease = BigDecimal.valueOf(ScalingService.MAX_REPLICAS)
                 .subtract(BigDecimal.valueOf(ScalingService.MIN_REPLICAS))
-                .multiply(BigDecimal.valueOf(TOLERABLE_TIME_PER_SINGLE_REPLICA));
+                .multiply(BigDecimal.valueOf(TOLERABLE_TIME_PER_SINGLE_REPLICA-20));
 
-        this.tolerableDecreaseVelocity = maxThroughput.divide(totalTimeDecrease, 2, RoundingMode.HALF_UP).doubleValue();
+        this.tolerableDecreaseVelocity = ScalingService.MAX_REPLICAS.doubleValue() * maxThroughput.divide(totalTimeDecrease, 2, RoundingMode.HALF_UP).doubleValue();
 
     }
 
@@ -38,16 +38,16 @@ public class Velocity {
         this.currentVelocity = currentVelocity;
 
 
-        if (this.currentVelocity >=0) {
+        if (this.currentVelocity >= 0) {
             increaseFactor = (int)Math.ceil(BigDecimal.valueOf(Math.abs(this.currentVelocity))
-                                    .divide(BigDecimal.valueOf(currentReplicas), 2, RoundingMode.HALF_UP)
-                                    .divide(BigDecimal.valueOf(tolerableIncreaseVelocity), 2, RoundingMode.HALF_UP).doubleValue());
+                                    .divide(BigDecimal.valueOf(ScalingService.MAX_REPLICAS).subtract(BigDecimal.valueOf(currentReplicas)), 2, RoundingMode.HALF_UP)
+                                    .divide(BigDecimal.valueOf(tolerableIncreaseVelocity), 2, RoundingMode.HALF_UP).doubleValue());               
         }
 
-        if (this.currentVelocity <0) {
+        if (this.currentVelocity < 0) {
             decreaseFactor = (int)Math.ceil(BigDecimal.valueOf(Math.abs(this.currentVelocity))
-                                    .divide( BigDecimal.valueOf(ScalingService.MAX_REPLICAS).subtract(BigDecimal.valueOf(currentReplicas)).add(BigDecimal.ONE), 2, RoundingMode.HALF_UP)
-                                    .divide(BigDecimal.valueOf(tolerableDecreaseVelocity), 2, RoundingMode.HALF_UP).doubleValue());
+                .divide(BigDecimal.valueOf(currentReplicas).add(BigDecimal.ONE), 2, RoundingMode.HALF_UP)
+                .divide(BigDecimal.valueOf(tolerableDecreaseVelocity), 2, RoundingMode.HALF_UP).doubleValue());
         }
     }
 
@@ -104,7 +104,7 @@ public class Velocity {
             return VelocityLevel.MAJOR_INCREASE;
         }
 
-        if (currentVelocity > 0 && increaseFactor >=2) {
+        if (currentVelocity > 0 && increaseFactor >=2 ) {
             return VelocityLevel.MODERATE_INCREASE;
         }
 
@@ -112,7 +112,7 @@ public class Velocity {
             return VelocityLevel.MAJOR_DECREASE;
         }
 
-        if (currentVelocity < 0 && decreaseFactor >= 2) {
+        if (currentVelocity < 0 && decreaseFactor >= 2 ) {
             return VelocityLevel.MODERATE_DECREASE;
         }
 

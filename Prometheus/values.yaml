@@ -69,7 +69,7 @@ alertmanager:
   prefixURL: ""
 
   ## External URL which can access alertmanager
-  baseURL: "http://localhost:9093"
+  baseURL: "http://phd-demo1.swedencentral.cloudapp.azure.com:9093"
 
   ## Additional alertmanager container environment variable
   ## For instance to add a http_proxy
@@ -193,7 +193,7 @@ alertmanager:
     ## alertmanager data Persistent Volume existing claim name
     ## Requires alertmanager.persistentVolume.enabled: true
     ## If defined, PVC must be created manually before volume will be bound
-    existingClaim: ""
+    existingClaim: "prometheus-alertmanager-pvc"
 
     ## alertmanager data Persistent Volume mount root path
     ##
@@ -211,6 +211,10 @@ alertmanager:
     ##   GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
+    
+    selector: # <----- here
+      matchLabels:
+        release: "prometheus"
 
     ## alertmanager data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -559,10 +563,10 @@ nodeExporter:
   ## Security context to be added to node-exporter pods
   ##
   securityContext:
-    fsGroup: 65534
-    runAsGroup: 65534
-    runAsNonRoot: true
-    runAsUser: 65534
+    fsGroup: 0
+    runAsGroup: 0
+    runAsNonRoot: false
+    runAsUser: 0
 
   service:
     annotations:
@@ -674,13 +678,13 @@ server:
   global:
     ## How frequently to scrape targets by default
     ##
-    scrape_interval: 10s
+    scrape_interval: 5s
     ## How long until a scrape request times out
     ##
-    scrape_timeout: 10s
+    scrape_timeout: 5s
     ## How frequently to evaluate rules
     ##
-    evaluation_interval: 1m
+    evaluation_interval: 30s
   ## https://prometheus.io/docs/prometheus/latest/configuration/configuration/#remote_write
   ##
   remoteWrite: []
@@ -694,15 +698,27 @@ server:
 
   ## Additional InitContainers to initialize the pod
   ##
-  extraInitContainers: []
+  #extraInitContainers: 
+  #  - name: prometheus-data-permission-fix
+  #    image: busybox
+  #    command: ["echo", "labas"]
+  #    command: ["sudo", "/bin/chmod","-R","777","/data"]
+  #    volumeMounts:
+  #    - name: storage-volume
+  #      mountPath: /data
 
   ## Additional Prometheus server Volume mounts
   ##
-  extraVolumeMounts: []
+  #extraVolumeMounts:
+  #  - name: prometheus-data
+  #    mountPath: /data
 
   ## Additional Prometheus server Volumes
   ##
-  extraVolumes: []
+  #extraVolumes: 
+   # - name: prometheus-data
+    #  persistentVolumeClaim:
+     #   claimName: prometheus-server-pvc
 
   ## Additional Prometheus server hostPath mounts
   ##
@@ -832,7 +848,9 @@ server:
     ## Prometheus server data Persistent Volume existing claim name
     ## Requires server.persistentVolume.enabled: true
     ## If defined, PVC must be created manually before volume will be bound
-    existingClaim: ""
+    
+    existingClaim: prometheus-server-pvc
+        
 
     ## Prometheus server data Persistent Volume mount root path
     ##
@@ -849,8 +867,8 @@ server:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    # storageClass: "-"
-
+    #storageClass: "-"
+    
     ## Prometheus server data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
     ## If undefined (the default) or set to null, no volumeBindingMode spec is
@@ -981,10 +999,14 @@ server:
   ## Security context to be added to server pods
   ##
   securityContext:
-    runAsUser: 65534
-    runAsNonRoot: true
-    runAsGroup: 65534
-    fsGroup: 65534
+    runAsUser: 0
+    runAsNonRoot: false
+    runAsGroup: 0
+    fsGroup: 0
+  
+  #initContainers:
+    #- command:
+      #- /bin/chmod -R 1000 /data
 
   service:
     annotations: {}
@@ -998,7 +1020,7 @@ server:
 
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
-    servicePort: 80
+    servicePort: 9090
     sessionAffinity: None
     type: ClusterIP
 
@@ -1165,8 +1187,8 @@ pushgateway:
   ## Security context to be added to push-gateway pods
   ##
   securityContext:
-    runAsUser: 65534
-    runAsNonRoot: true
+    runAsUser: 0
+    runAsNonRoot: false
 
   service:
     annotations:
@@ -1297,7 +1319,7 @@ serverFiles:
       - job_name: prometheus
         static_configs:
           - targets:
-            - localhost:9090
+            - phd-demo1.swedencentral.cloudapp.azure.com:9090
 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)
@@ -1659,7 +1681,14 @@ serverFiles:
 # adds additional scrape configs to prometheus.yml
 # must be a string so you have to add a | after extraScrapeConfigs:
 # example adds prometheus-blackbox-exporter scrape config
-extraScrapeConfigs:
+
+extraScrapeConfigs: |
+  - job_name: 'busines-tx-metrics'
+    scrape_interval: 5s
+    metrics_path: /actuator/prometheus
+    kubernetes_sd_configs:
+      - role: endpoints
+
   # - job_name: 'prometheus-blackbox-exporter'
   #   metrics_path: /probe
   #   params:

@@ -1,0 +1,38 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: demo1-hpa
+spec:
+  maxReplicas: 22
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: demo1
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60
+  behavior:
+    scaleDown:
+      policies:
+      - type: Pods
+        value: 21
+        periodSeconds: 10
+      - type: Percent
+        value: 100
+        periodSeconds: 10
+      stabilizationWindowSeconds: 20
+    scaleUp:
+      policies:
+      - type: Pods
+        value: 21
+        periodSeconds: 10
+      - type: Percent
+        value: 100
+        periodSeconds: 10
+      stabilizationWindowSeconds: 10
+

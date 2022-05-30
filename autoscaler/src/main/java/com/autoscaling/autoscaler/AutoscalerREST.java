@@ -21,7 +21,8 @@ public class AutoscalerREST {
     public Integer getScaleCount(@RequestParam Map<String,String> allParams) {
        JSONObject json = new JSONObject(allParams.get("value"));
        Integer currentReplicas = json.getJSONObject("resource").getJSONObject("spec").getInt("replicas");
-
+       System.out.println("received currentReplicas from CPA" + currentReplicas);
        return scalingService.scale(currentReplicas);
+       //return dmScalingService.scale(currentReplicas);
     }
 }
