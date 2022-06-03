@@ -7,10 +7,10 @@ metadata:
 spec:
   containers:
     - name: demo1
-      image: autoscale/demo1
+      image: aurimasch/demo1
       imagePullPolicy: IfNotPresent
       ports:
-      - containerPort: 8080
+      - containerPort: 8081
       #resources:
         #requests:
           #memory: "256Mi"

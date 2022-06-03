@@ -193,7 +193,7 @@ alertmanager:
     ## alertmanager data Persistent Volume existing claim name
     ## Requires alertmanager.persistentVolume.enabled: true
     ## If defined, PVC must be created manually before volume will be bound
-    existingClaim: "prometheus-alertmanager-pvc"
+    existingClaim: ""
 
     ## alertmanager data Persistent Volume mount root path
     ##
@@ -203,6 +203,10 @@ alertmanager:
     ##
     size: 2Gi
 
+statefulSet:
+    enabled: truestatefulSet:
+    enabled: true
+
     ## alertmanager data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
     ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -211,10 +215,6 @@ alertmanager:
     ##   GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
-    
-    selector: # <----- here
-      matchLabels:
-        release: "prometheus"
 
     ## alertmanager data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -563,10 +563,10 @@ nodeExporter:
   ## Security context to be added to node-exporter pods
   ##
   securityContext:
-    fsGroup: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    runAsUser: 0
+    fsGroup: 65534
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
 
   service:
     annotations:
@@ -698,27 +698,15 @@ server:
 
   ## Additional InitContainers to initialize the pod
   ##
-  #extraInitContainers: 
-  #  - name: prometheus-data-permission-fix
-  #    image: busybox
-  #    command: ["echo", "labas"]
-  #    command: ["sudo", "/bin/chmod","-R","777","/data"]
-  #    volumeMounts:
-  #    - name: storage-volume
-  #      mountPath: /data
+  extraInitContainers: []
 
   ## Additional Prometheus server Volume mounts
   ##
-  #extraVolumeMounts:
-  #  - name: prometheus-data
-  #    mountPath: /data
+  extraVolumeMounts: []
 
   ## Additional Prometheus server Volumes
   ##
-  #extraVolumes: 
-   # - name: prometheus-data
-    #  persistentVolumeClaim:
-     #   claimName: prometheus-server-pvc
+  extraVolumes: []
 
   ## Additional Prometheus server hostPath mounts
   ##
@@ -848,9 +836,7 @@ server:
     ## Prometheus server data Persistent Volume existing claim name
     ## Requires server.persistentVolume.enabled: true
     ## If defined, PVC must be created manually before volume will be bound
-    
-    existingClaim: prometheus-server-pvc
-        
+    existingClaim: ""
 
     ## Prometheus server data Persistent Volume mount root path
     ##
@@ -867,8 +853,8 @@ server:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    #storageClass: "-"
-    
+    # storageClass: "-"
+
     ## Prometheus server data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
     ## If undefined (the default) or set to null, no volumeBindingMode spec is
@@ -999,14 +985,10 @@ server:
   ## Security context to be added to server pods
   ##
   securityContext:
-    runAsUser: 0
-    runAsNonRoot: false
-    runAsGroup: 0
-    fsGroup: 0
-  
-  #initContainers:
-    #- command:
-      #- /bin/chmod -R 1000 /data
+    runAsUser: 65534
+    runAsNonRoot: true
+    runAsGroup: 65534
+    fsGroup: 65534
 
   service:
     annotations: {}
@@ -1187,8 +1169,8 @@ pushgateway:
   ## Security context to be added to push-gateway pods
   ##
   securityContext:
-    runAsUser: 0
-    runAsNonRoot: false
+    runAsUser: 65534
+    runAsNonRoot: true
 
   service:
     annotations:
@@ -1681,14 +1663,7 @@ serverFiles:
 # adds additional scrape configs to prometheus.yml
 # must be a string so you have to add a | after extraScrapeConfigs:
 # example adds prometheus-blackbox-exporter scrape config
-
-extraScrapeConfigs: |
-  - job_name: 'busines-tx-metrics'
-    scrape_interval: 5s
-    metrics_path: /actuator/prometheus
-    kubernetes_sd_configs:
-      - role: endpoints
-
+extraScrapeConfigs:
   # - job_name: 'prometheus-blackbox-exporter'
   #   metrics_path: /probe
   #   params:

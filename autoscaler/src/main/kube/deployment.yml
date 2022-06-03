@@ -1,33 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo1
+  name: autoscaler
   labels:
-    app: demo1
+    app: autoscaler
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: demo1
+      app: autoscaler
   template:
     metadata:
       labels:
-        app: demo1
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8081"
-        prometheus.io/path: /actuator/prometheus
+        app: autoscaler
     spec:
       containers:
-        - name: demo1
-          image: aurimasch/demo1
-          imagePullPolicy: IfNotPresent
+        - name: autoscaler
+          image: aurimasch/autoscaler:latest
+          imagePullPolicy: Always
           ports:
-            - containerPort: 8081
+            - containerPort: 8080
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8081
+              port: 8080
             initialDelaySeconds: 10
             periodSeconds: 20
             timeoutSeconds: 3
@@ -36,7 +32,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8081
+              port: 8080
             initialDelaySeconds: 10
             periodSeconds: 20
             timeoutSeconds: 3
