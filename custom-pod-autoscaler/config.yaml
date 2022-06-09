@@ -10,7 +10,7 @@ metric:
   timeout: 2500
   http:
     method: "GET"
-    url: "http://demo1-service:8081/api/count"
+    url: "http://autoscaler:8080/api/count"
     successCodes:
       - 200
     parameterMode: query
