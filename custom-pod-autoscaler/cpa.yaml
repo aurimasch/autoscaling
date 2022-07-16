@@ -7,8 +7,8 @@ spec:
     spec:
       containers:
       - name: http-request
-        image: aurimasch/http-request:latest
-        imagePullPolicy: IfNotPresent
+        image: olesiapoz/http-request:latest
+        imagePullPolicy: Always
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
