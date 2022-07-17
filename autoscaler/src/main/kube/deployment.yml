@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: autoscaler
-          image: aurimasch/autoscaler:latest
+          image: olesiapoz/autoscaler:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
