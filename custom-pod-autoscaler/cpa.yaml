@@ -1,13 +1,13 @@
 apiVersion: custompodautoscaler.com/v1
 kind: CustomPodAutoscaler
 metadata:
-  name: http-request-autoscaler
+  name: http-request
 spec:
   template:
     spec:
       containers:
-      - name: http-request-autoscaler
-        image: olesiapoz/http-request-autoscaler:latest
+      - name: http-request
+        image: olesiapoz/http-request:latest
         imagePullPolicy: Always
   scaleTargetRef:
     apiVersion: apps/v1

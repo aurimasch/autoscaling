@@ -1,9 +1,12 @@
 #! /bin/bash
 
 sudo mvn clean install -P docker
-
 wait
-echo "docker file build"
+
+sudo docker push olesiapoz/demo1:latest
+wait
+
+echo "docker file build and pushed"
 
 ( cd src/main/kube &&  kubectl apply -f deployment.yml )
 wait

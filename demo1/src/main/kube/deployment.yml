@@ -20,8 +20,8 @@ spec:
     spec:
       containers:
         - name: demo1
-          image: aurimasch/demo1
-          imagePullPolicy: IfNotPresent
+          image: olesiapoz/demo1
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           livenessProbe:
