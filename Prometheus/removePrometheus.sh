@@ -9,4 +9,3 @@ echo -e "${GREEN}Prometheus is deleted${NC}"
 
 
 (cd ../prod && ./removeVolumes.sh)
-

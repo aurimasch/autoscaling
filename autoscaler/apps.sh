@@ -9,6 +9,6 @@ sudo docker push olesiapoz/autoscaler:latest
 wait 
 echo "Autoscaler pushed"
 
-( cd src/main/kube &&  kubectl apply -f deployment.yml )
+( cd src/main/kube &&  kubectl apply -f deployment.yml -f service.yml )
 wait
 echo "Autoscaler Deployed"

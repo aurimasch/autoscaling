@@ -45,3 +45,11 @@ spec:
             limits:
               memory: "1024Mi"
               cpu: "1000m"
+          volumeMounts:
+          - name: azurefile
+            mountPath: /root/
+      volumes:
+      - name: azurefile
+        persistentVolumeClaim:
+          claimName: azurefile
+
