@@ -7,7 +7,7 @@ wait
 echo "CPA operator installed"
 
 sudo docker build -t olesiapoz/http-request:latest .
-sudo docker push  olesiapoz/http-request:latest .
+sudo docker push  olesiapoz/http-request:latest
 wait
 echo "Build custom sclare image"
 

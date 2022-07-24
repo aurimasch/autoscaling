@@ -19,7 +19,7 @@ public class ScalingService {
     @Autowired
     private VolatilityService volatilityService;
 
-    public static final Integer MAX_REPLICAS = 8;
+    public static final Integer MAX_REPLICAS = 10;
     public static final Integer MIN_REPLICAS = 1;
 
     public Integer scale(Integer currentReplicasFromAutoscaler) {
