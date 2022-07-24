@@ -11,19 +11,19 @@ import java.io.PrintWriter;
 @Service
 public class FileWriter {
 
-    File avgCPUFILE = new File("C:\\Dev\\prj\\autoscaling\\autoscaler\\avg_cpu.csv");
+    File avgCPUFILE = new File("results.csv");
     PrintWriter avgCPUWriter;
 
-    File btCount = new File("C:\\Dev\\prj\\autoscaling\\autoscaler\\bt_count.csv");
+    File btCount = new File("bt_count.csv");
     PrintWriter btCountWriter;
 
-    File slaReader = new File("C:\\Dev\\prj\\autoscaling\\autoscaler\\sla.csv");
+    File slaReader = new File("sla.csv");
     PrintWriter slaWriter;
 
-    File podCount = new File("C:\\Dev\\prj\\autoscaling\\autoscaler\\pod_count.csv");
+    File podCount = new File("pod_count.csv");
     PrintWriter podContWriter;
 
-    File podUpTime = new File("C:\\Dev\\prj\\autoscaling\\autoscaler\\pod_upTime.csv");
+    File podUpTime = new File("pod_upTime.csv");
     PrintWriter podUpTimeWriter;
 
 
