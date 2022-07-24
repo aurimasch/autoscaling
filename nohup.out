@@ -1,0 +1,461 @@
+Removing Autoscaler
+deployment.apps "autoscaler" deleted
+Autoscaler removed
+Removing Demo1
+deployment.apps "demo1" deleted
+-e [0;32mDemo1 removed[0m
+Removing CPA
+custompodautoscaler.custompodautoscaler.com "http-request" deleted
+[0;32mCPA removed[0m
+error: unknown command "remove" for "kubectl"
+[0;32mCPA operator removed[0m
+Removing prometheus
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/phd/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/phd/.kube/config
+release "prometheus" uninstalled
+[0;32mPrometheus is deleted[0m
+./removePrometheus.sh: ./removeVolumes.sh: /bib/sh: bad interpreter: No such file or directory
+Installing prometheus
+Creating persitant volumes
+persistentvolume/prometheus-server-pv created
+persistentvolume/prometheus-alertmanager-pv created
+persistentvolumeclaim/prometheus-server-pvc created
+persistentvolumeclaim/prometheus-alertmanager-pvc created
+volumes created
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /home/phd/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /home/phd/.kube/config
+NAME: prometheus
+LAST DEPLOYED: Sun Jul 24 13:04:04 2022
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The Prometheus server can be accessed via port 9090 on the following DNS name from within your cluster:
+prometheus-server.default.svc.cluster.local
+
+
+Get the Prometheus server URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9090
+
+
+The Prometheus alertmanager can be accessed via port 80 on the following DNS name from within your cluster:
+prometheus-alertmanager.default.svc.cluster.local
+
+
+Get the Alertmanager URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9093
+#################################################################################
+######   WARNING: Pod Security Policy has been moved to a global property.  #####
+######            use .Values.podSecurityPolicy.enabled with pod-based      #####
+######            annotations                                               #####
+######            (e.g. .Values.nodeExporter.podSecurityPolicy.annotations) #####
+#################################################################################
+
+
+The Prometheus PushGateway can be accessed via port 9091 on the following DNS name from within your cluster:
+prometheus-pushgateway.default.svc.cluster.local
+
+
+Get the PushGateway URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=pushgateway" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9091
+
+For more information on running Prometheus, visit:
+https://prometheus.io/
+patching helming
+daemonset.apps/prometheus-node-exporter patched
+finished
+Installing Demo1
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] Some problems were encountered while building the effective model for com.autoscaling:demo1:jar:0.0.1-SNAPSHOT
+[[1;33mWARNING[m] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-eclipse-plugin is missing. @ line 81, column 12
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] It is highly recommended to fix these problems because they threaten the stability of your build.
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] For this reason, future Maven versions might no longer support building such malformed projects.
+[[1;33mWARNING[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m-----------------------< [0;36mcom.autoscaling:demo1[0;1m >------------------------[m
+[[1;34mINFO[m] [1mBuilding demo1 0.0.1-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.1.0:clean[m [1m(default-clean)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] Deleting /home/phd/autoscaling/demo1/target
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.1.0:resources[m [1m(default-resources)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Copying 1 resource
+[[1;34mINFO[m] Copying 0 resource
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.8.1:compile[m [1m(default-compile)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module!
+[[1;34mINFO[m] Compiling 2 source files to /home/phd/autoscaling/demo1/target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.1.0:testResources[m [1m(default-testResources)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] skip non existing resourceDirectory /home/phd/autoscaling/demo1/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.8.1:testCompile[m [1m(default-testCompile)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module!
+[[1;34mINFO[m] Compiling 1 source file to /home/phd/autoscaling/demo1/target/test-classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-surefire-plugin:2.22.2:test[m [1m(default-test)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m]  T E S T S
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m] Running com.autoscaling.demo1.[1mDemo1ApplicationTests[m
+13:04:33.559 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+13:04:33.573 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+13:04:33.606 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.autoscaling.demo1.Demo1ApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+13:04:33.630 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.autoscaling.demo1.Demo1ApplicationTests], using SpringBootContextLoader
+13:04:33.633 [main] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.autoscaling.demo1.Demo1ApplicationTests]: class path resource [com/autoscaling/demo1/Demo1ApplicationTests-context.xml] does not exist
+13:04:33.634 [main] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.autoscaling.demo1.Demo1ApplicationTests]: class path resource [com/autoscaling/demo1/Demo1ApplicationTestsContext.groovy] does not exist
+13:04:33.634 [main] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.autoscaling.demo1.Demo1ApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+13:04:33.635 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.autoscaling.demo1.Demo1ApplicationTests]: Demo1ApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:04:33.685 [main] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.autoscaling.demo1.Demo1ApplicationTests]
+13:04:33.820 [main] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/home/phd/autoscaling/demo1/target/classes/com/autoscaling/demo1/Demo1Application.class]
+13:04:33.829 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.autoscaling.demo1.Demo1Application for test class com.autoscaling.demo1.Demo1ApplicationTests
+13:04:33.975 [main] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.autoscaling.demo1.Demo1ApplicationTests]: using defaults.
+13:04:33.976 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+13:04:33.985 [main] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Skipping candidate TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener] due to a missing dependency. Specify custom listener classes or make the default listener classes and their required dependencies available. Offending class: [org/springframework/transaction/interceptor/TransactionAttributeSource]
+13:04:33.985 [main] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Skipping candidate TestExecutionListener [org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener] due to a missing dependency. Specify custom listener classes or make the default listener classes and their required dependencies available. Offending class: [org/springframework/transaction/interceptor/TransactionAttribute]
+13:04:33.986 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@20ca951f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@2d778add, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@73302995, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1838ccb8, org.springframework.test.context.support.DirtiesContextTestExecutionListener@6c2ed0cd, org.springframework.test.context.event.EventPublishingTestExecutionListener@7d9e8ef7, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@f107c50, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@51133c06, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@4b213651, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@4241e0f4, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@4ebff610, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@60410cd]
+13:04:33.995 [main] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@5a3bc7ed testClass = Demo1ApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@181e731e testClass = Demo1ApplicationTests, locations = '{}', classes = '{class com.autoscaling.demo1.Demo1Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@793be5ca, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@15aab8c6, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@429bffaa, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@2b91004a, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@86be70a], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true]], class annotated with @DirtiesContext [false] with mode [null].
+13:04:34.045 [main] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v2.3.10.RELEASE)
+
+2022-07-24 13:04:35.041  INFO 61907 --- [           main] c.a.demo1.Demo1ApplicationTests          : No active profile set, falling back to default profiles: default
+2022-07-24 13:04:35.741  WARN 61907 --- [           main] o.s.boot.actuate.endpoint.EndpointId     : Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2022-07-24 13:04:35.858  INFO 61907 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ddaf21f0-7d0b-3e60-9c7f-ceed250a172e
+2022-07-24 13:04:36.161  INFO 61907 --- [           main] org.eclipse.jetty.util.log               : Logging initialized @3281ms to org.eclipse.jetty.util.log.Slf4jLog
+2022-07-24 13:04:36.413  INFO 61907 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-07-24 13:04:36.660  WARN 61907 --- [           main] io.fabric8.kubernetes.client.Config      : Error reading service account token from: [/var/run/secrets/kubernetes.io/serviceaccount/token]. Ignoring.
+2022-07-24 13:04:36.661  WARN 61907 --- [           main] io.fabric8.kubernetes.client.Config      : Error reading service account token from: [/var/run/secrets/kubernetes.io/serviceaccount/token]. Ignoring.
+2022-07-24 13:04:36.662  WARN 61907 --- [           main] o.s.c.k.KubernetesAutoConfiguration      : No namespace has been detected. Please specify KUBERNETES_NAMESPACE env var, or use a later kubernetes version (1.3 or later)
+2022-07-24 13:04:37.066  INFO 61907 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoint(s) beneath base path '/actuator'
+2022-07-24 13:04:37.114  INFO 61907 --- [           main] c.a.demo1.Demo1ApplicationTests          : Started Demo1ApplicationTests in 3.06 seconds (JVM running for 4.235)
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m1[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.159 s - in com.autoscaling.demo1.[1mDemo1ApplicationTests[m
+2022-07-24 13:04:37.631  INFO 61907 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Results:
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1;32mTests run: 1, Failures: 0, Errors: 0, Skipped: 0[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-jar-plugin:3.2.0:jar[m [1m(default-jar)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] Building jar: /home/phd/autoscaling/demo1/target/demo1-0.0.1-SNAPSHOT.jar
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:2.3.10.RELEASE:repackage[m [1m(repackage)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] Replacing main artifact with repackaged archive
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mdockerfile-maven-plugin:1.4.13:build[m [1m(default)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] dockerfile: null
+[[1;34mINFO[m] contextDirectory: /home/phd/autoscaling/demo1
+[[1;34mINFO[m] Building Docker context /home/phd/autoscaling/demo1
+[[1;34mINFO[m] Path(dockerfile): null
+[[1;34mINFO[m] Path(contextDirectory): /home/phd/autoscaling/demo1
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Image will be built as olesiapoz/demo1:latest
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Step 1/7 : FROM openjdk:11.0.7-jre-slim-buster
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Pulling from library/openjdk
+[[1;34mINFO[m] Digest: sha256:afd1c9c9138dc4bfe062f15ce74b2d0d9518d8f6f8309881e8f821cb5b182bf0
+[[1;34mINFO[m] Status: Image is up to date for openjdk:11.0.7-jre-slim-buster
+[[1;34mINFO[m]  ---> 030d68516e3a
+[[1;34mINFO[m] Step 2/7 : VOLUME /tmp
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Using cache
+[[1;34mINFO[m]  ---> 904610404d4f
+[[1;34mINFO[m] Step 3/7 : COPY entrypoint.sh /entrypoint.sh
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Using cache
+[[1;34mINFO[m]  ---> 65cea312d97f
+[[1;34mINFO[m] Step 4/7 : RUN chmod +x /entrypoint.sh
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Using cache
+[[1;34mINFO[m]  ---> c2fac375c1b6
+[[1;34mINFO[m] Step 5/7 : COPY target/demo1-0.0.1-SNAPSHOT.jar app.jar
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> 4523a7b65270
+[[1;34mINFO[m] Step 6/7 : EXPOSE 8081
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Running in 735200e3888e
+[[1;34mINFO[m] Removing intermediate container 735200e3888e
+[[1;34mINFO[m]  ---> 385be3b1016f
+[[1;34mINFO[m] Step 7/7 : ENTRYPOINT ["/entrypoint.sh"]
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Running in 653742afaef7
+[[1;34mINFO[m] Removing intermediate container 653742afaef7
+[[1;34mINFO[m]  ---> 9b3156c85387
+[[1;34mINFO[m] [Warning] One or more build-args [JAR_FILE] were not consumed
+[[1;34mINFO[m] Successfully built 9b3156c85387
+[[1;34mINFO[m] Successfully tagged olesiapoz/demo1:latest
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Detected build of image with id 9b3156c85387
+[[1;34mINFO[m] Building jar: /home/phd/autoscaling/demo1/target/demo1-0.0.1-SNAPSHOT-docker-info.jar
+[[1;34mINFO[m] Successfully built olesiapoz/demo1:latest
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-install-plugin:2.5.2:install[m [1m(default-install)[m @ [36mdemo1[0;1m ---[m
+[[1;34mINFO[m] Installing /home/phd/autoscaling/demo1/target/demo1-0.0.1-SNAPSHOT.jar to /root/.m2/repository/com/autoscaling/demo1/0.0.1-SNAPSHOT/demo1-0.0.1-SNAPSHOT.jar
+[[1;34mINFO[m] Installing /home/phd/autoscaling/demo1/pom.xml to /root/.m2/repository/com/autoscaling/demo1/0.0.1-SNAPSHOT/demo1-0.0.1-SNAPSHOT.pom
+[[1;34mINFO[m] Installing /home/phd/autoscaling/demo1/target/demo1-0.0.1-SNAPSHOT-docker-info.jar to /root/.m2/repository/com/autoscaling/demo1/0.0.1-SNAPSHOT/demo1-0.0.1-SNAPSHOT-docker-info.jar
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  20.161 s
+[[1;34mINFO[m] Finished at: 2022-07-24T13:04:48Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+The push refers to repository [docker.io/olesiapoz/demo1]
+895d74c41cfb: Preparing
+21d008fbba90: Preparing
+6ff49a27c836: Preparing
+65be02c43d23: Preparing
+9fc268fda517: Preparing
+94cf29cec5e1: Preparing
+13cb14c2acd3: Preparing
+94cf29cec5e1: Waiting
+13cb14c2acd3: Waiting
+6ff49a27c836: Layer already exists
+21d008fbba90: Layer already exists
+65be02c43d23: Layer already exists
+9fc268fda517: Layer already exists
+94cf29cec5e1: Layer already exists
+13cb14c2acd3: Layer already exists
+895d74c41cfb: Pushed
+latest: digest: sha256:6f101f8123d056fb90b6e141ff470ece4efef07fba618326a56b795959d7adac size: 1785
+docker file build and pushed
+deployment.apps/demo1 created
+service/demo1-service unchanged
+Deployed
+Installing CPA
+serviceaccount/custom-pod-autoscaler-operator-cluster unchanged
+customresourcedefinition.apiextensions.k8s.io/custompodautoscalers.custompodautoscaler.com configured
+clusterrole.rbac.authorization.k8s.io/custom-pod-autoscaler-operator configured
+clusterrolebinding.rbac.authorization.k8s.io/custom-pod-autoscaler-operator unchanged
+deployment.apps/custom-pod-autoscaler-operator configured
+CPA operator installed
+Sending build context to Docker daemon  11.78kB
+Step 1/2 : FROM custompodautoscaler/python:latest
+ ---> 71a9f9e6ff4e
+Step 2/2 : ADD config.yaml evaluate.py /
+ ---> Using cache
+ ---> 407e096b1eaf
+Successfully built 407e096b1eaf
+Successfully tagged olesiapoz/http-request:latest
+"docker push" requires exactly 1 argument.
+See 'docker push --help'.
+
+Usage:  docker push [OPTIONS] NAME[:TAG]
+
+Push an image or a repository to a registry
+Build custom sclare image
+custompodautoscaler.custompodautoscaler.com/http-request created
+Deploy to kubernetes
+Installing Autoscaler
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] Some problems were encountered while building the effective model for com.autoscaling:autoscaler:jar:0.0.1-SNAPSHOT
+[[1;33mWARNING[m] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-eclipse-plugin is missing. @ line 99, column 14
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] It is highly recommended to fix these problems because they threaten the stability of your build.
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] For this reason, future Maven versions might no longer support building such malformed projects.
+[[1;33mWARNING[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m---------------------< [0;36mcom.autoscaling:autoscaler[0;1m >---------------------[m
+[[1;34mINFO[m] [1mBuilding autoscaler 0.0.1-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.1.0:clean[m [1m(default-clean)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] Deleting /home/phd/autoscaling/autoscaler/target
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.1.0:resources[m [1m(default-resources)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Copying 2 resources
+[[1;34mINFO[m] Copying 0 resource
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.8.1:compile[m [1m(default-compile)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module!
+[[1;34mINFO[m] Compiling 27 source files to /home/phd/autoscaling/autoscaler/target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.1.0:testResources[m [1m(default-testResources)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] skip non existing resourceDirectory /home/phd/autoscaling/autoscaler/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.8.1:testCompile[m [1m(default-testCompile)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module!
+[[1;34mINFO[m] Compiling 4 source files to /home/phd/autoscaling/autoscaler/target/test-classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-surefire-plugin:2.22.2:test[m [1m(default-test)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m]  T E S T S
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m] Running com.autoscaling.autoscaler.model.[1mVelocityTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m4[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s - in com.autoscaling.autoscaler.model.[1mVelocityTest[m
+[[1;34mINFO[m] Running com.autoscaling.autoscaler.[1mAutoscalerApplicationTests[m
+13:05:03.816 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+13:05:03.827 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+13:05:03.861 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.autoscaling.autoscaler.AutoscalerApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+13:05:03.875 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.autoscaling.autoscaler.AutoscalerApplicationTests], using SpringBootContextLoader
+13:05:03.879 [main] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.autoscaling.autoscaler.AutoscalerApplicationTests]: class path resource [com/autoscaling/autoscaler/AutoscalerApplicationTests-context.xml] does not exist
+13:05:03.880 [main] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.autoscaling.autoscaler.AutoscalerApplicationTests]: class path resource [com/autoscaling/autoscaler/AutoscalerApplicationTestsContext.groovy] does not exist
+13:05:03.880 [main] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.autoscaling.autoscaler.AutoscalerApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+13:05:03.881 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.autoscaling.autoscaler.AutoscalerApplicationTests]: AutoscalerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:05:03.915 [main] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.autoscaling.autoscaler.AutoscalerApplicationTests]
+13:05:03.965 [main] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/home/phd/autoscaling/autoscaler/target/classes/com/autoscaling/autoscaler/AutoscalerApplication.class]
+13:05:03.983 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.autoscaling.autoscaler.AutoscalerApplication for test class com.autoscaling.autoscaler.AutoscalerApplicationTests
+13:05:04.054 [main] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.autoscaling.autoscaler.AutoscalerApplicationTests]: using defaults.
+13:05:04.055 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+13:05:04.063 [main] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Skipping candidate TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener] due to a missing dependency. Specify custom listener classes or make the default listener classes and their required dependencies available. Offending class: [org/springframework/transaction/interceptor/TransactionAttributeSource]
+13:05:04.064 [main] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Skipping candidate TestExecutionListener [org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener] due to a missing dependency. Specify custom listener classes or make the default listener classes and their required dependencies available. Offending class: [org/springframework/transaction/interceptor/TransactionAttribute]
+13:05:04.064 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@60129b9a, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@78d6692f, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7a55af6b, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3d9c13b5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@492691d7, org.springframework.test.context.event.EventPublishingTestExecutionListener@27216cd, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@558bdf1f, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@8576fa0, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@7582ff54, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@67545b57, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@6c2c1385, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@5f354bcf]
+13:05:04.067 [main] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@4ae9cfc1 testClass = AutoscalerApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@512baff6 testClass = AutoscalerApplicationTests, locations = '{}', classes = '{class com.autoscaling.autoscaler.AutoscalerApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@741a8937, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6fd83fc1, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@194bcebf, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@2dc54ad4, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@32a068d1], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true]], class annotated with @DirtiesContext [false] with mode [null].
+13:05:04.095 [main] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v2.3.10.RELEASE)
+
+2022-07-24 13:05:04.911  WARN 62727 --- [           main] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/root/.m2/repository/org/json/json/20210307/json-20210307.jar!/org/json/JSONObject.class
+	jar:file:/root/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2022-07-24 13:05:04.921  INFO 62727 --- [           main] c.a.a.AutoscalerApplicationTests         : No active profile set, falling back to default profiles: default
+2022-07-24 13:05:05.541  WARN 62727 --- [           main] o.s.boot.actuate.endpoint.EndpointId     : Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2022-07-24 13:05:05.628  INFO 62727 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=473aae00-1ecf-33bf-81ca-044d95386225
+Reading metricsI/O error on GET request for "http://prometheus-server:9090/api/v1/query": prometheus-server; nested exception is java.net.UnknownHostException: prometheus-server
+2022-07-24 13:05:05.819  INFO 62727 --- [           main] org.eclipse.jetty.util.log               : Logging initialized @2605ms to org.eclipse.jetty.util.log.Slf4jLog
+2022-07-24 13:05:06.165  INFO 62727 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-07-24 13:05:06.396  WARN 62727 --- [           main] io.fabric8.kubernetes.client.Config      : Error reading service account token from: [/var/run/secrets/kubernetes.io/serviceaccount/token]. Ignoring.
+2022-07-24 13:05:06.397  WARN 62727 --- [           main] io.fabric8.kubernetes.client.Config      : Error reading service account token from: [/var/run/secrets/kubernetes.io/serviceaccount/token]. Ignoring.
+2022-07-24 13:05:06.398  WARN 62727 --- [           main] o.s.c.k.KubernetesAutoConfiguration      : No namespace has been detected. Please specify KUBERNETES_NAMESPACE env var, or use a later kubernetes version (1.3 or later)
+2022-07-24 13:05:06.719  INFO 62727 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2022-07-24 13:05:06.759  INFO 62727 --- [           main] c.a.a.AutoscalerApplicationTests         : Started AutoscalerApplicationTests in 2.654 seconds (JVM running for 3.546)
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m1[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.229 s - in com.autoscaling.autoscaler.[1mAutoscalerApplicationTests[m
+2022-07-24 13:05:07.053  INFO 62727 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Results:
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1;32mTests run: 5, Failures: 0, Errors: 0, Skipped: 0[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-jar-plugin:3.2.0:jar[m [1m(default-jar)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] Building jar: /home/phd/autoscaling/autoscaler/target/autoscaler-0.0.1-SNAPSHOT.jar
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:2.3.10.RELEASE:repackage[m [1m(repackage)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] Replacing main artifact with repackaged archive
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mdockerfile-maven-plugin:1.4.13:build[m [1m(default)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] dockerfile: null
+[[1;34mINFO[m] contextDirectory: /home/phd/autoscaling/autoscaler
+[[1;34mINFO[m] Building Docker context /home/phd/autoscaling/autoscaler
+[[1;34mINFO[m] Path(dockerfile): null
+[[1;34mINFO[m] Path(contextDirectory): /home/phd/autoscaling/autoscaler
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Image will be built as olesiapoz/autoscaler:latest
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Step 1/7 : FROM openjdk:11.0.7-jre-slim-buster
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Pulling from library/openjdk
+[[1;34mINFO[m] Digest: sha256:afd1c9c9138dc4bfe062f15ce74b2d0d9518d8f6f8309881e8f821cb5b182bf0
+[[1;34mINFO[m] Status: Image is up to date for openjdk:11.0.7-jre-slim-buster
+[[1;34mINFO[m]  ---> 030d68516e3a
+[[1;34mINFO[m] Step 2/7 : VOLUME /tmp
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Using cache
+[[1;34mINFO[m]  ---> 904610404d4f
+[[1;34mINFO[m] Step 3/7 : COPY entrypoint.sh /entrypoint.sh
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Using cache
+[[1;34mINFO[m]  ---> e94b70287e4d
+[[1;34mINFO[m] Step 4/7 : RUN chmod +x /entrypoint.sh
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Using cache
+[[1;34mINFO[m]  ---> c23e1654543b
+[[1;34mINFO[m] Step 5/7 : COPY target/autoscaler-0.0.1-SNAPSHOT.jar app.jar
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> f6b9e9a7180c
+[[1;34mINFO[m] Step 6/7 : EXPOSE 8080
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Running in 3e837a5d8061
+[[1;34mINFO[m] Removing intermediate container 3e837a5d8061
+[[1;34mINFO[m]  ---> cd62ba3fd97b
+[[1;34mINFO[m] Step 7/7 : ENTRYPOINT ["/entrypoint.sh"]
+[[1;34mINFO[m] 
+[[1;34mINFO[m]  ---> Running in ff53b16198d0
+[[1;34mINFO[m] Removing intermediate container ff53b16198d0
+[[1;34mINFO[m]  ---> 7860058258c8
+[[1;34mINFO[m] [Warning] One or more build-args [JAR_FILE] were not consumed
+[[1;34mINFO[m] Successfully built 7860058258c8
+[[1;34mINFO[m] Successfully tagged olesiapoz/autoscaler:latest
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Detected build of image with id 7860058258c8
+[[1;34mINFO[m] Building jar: /home/phd/autoscaling/autoscaler/target/autoscaler-0.0.1-SNAPSHOT-docker-info.jar
+[[1;34mINFO[m] Successfully built olesiapoz/autoscaler:latest
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-install-plugin:2.5.2:install[m [1m(default-install)[m @ [36mautoscaler[0;1m ---[m
+[[1;34mINFO[m] Installing /home/phd/autoscaling/autoscaler/target/autoscaler-0.0.1-SNAPSHOT.jar to /root/.m2/repository/com/autoscaling/autoscaler/0.0.1-SNAPSHOT/autoscaler-0.0.1-SNAPSHOT.jar
+[[1;34mINFO[m] Installing /home/phd/autoscaling/autoscaler/pom.xml to /root/.m2/repository/com/autoscaling/autoscaler/0.0.1-SNAPSHOT/autoscaler-0.0.1-SNAPSHOT.pom
+[[1;34mINFO[m] Installing /home/phd/autoscaling/autoscaler/target/autoscaler-0.0.1-SNAPSHOT-docker-info.jar to /root/.m2/repository/com/autoscaling/autoscaler/0.0.1-SNAPSHOT/autoscaler-0.0.1-SNAPSHOT-docker-info.jar
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  15.581 s
+[[1;34mINFO[m] Finished at: 2022-07-24T13:05:16Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+docker file build
+The push refers to repository [docker.io/olesiapoz/autoscaler]
+5c3e5594c8e7: Preparing
+201a35ea7888: Preparing
+a307fb63ab22: Preparing
+65be02c43d23: Preparing
+9fc268fda517: Preparing
+94cf29cec5e1: Preparing
+13cb14c2acd3: Preparing
+94cf29cec5e1: Waiting
+13cb14c2acd3: Waiting
+9fc268fda517: Layer already exists
+201a35ea7888: Layer already exists
+a307fb63ab22: Layer already exists
+65be02c43d23: Layer already exists
+13cb14c2acd3: Layer already exists
+94cf29cec5e1: Layer already exists
+5c3e5594c8e7: Pushed
+latest: digest: sha256:c57627e0cc80a82fe1f07f8e07ced4fcffa7d5e01e229c5c9e425d9a6eef4743 size: 1785
+Autoscaler pushed
+deployment.apps/autoscaler created
+service/autoscaler unchanged
+Autoscaler Deployed
