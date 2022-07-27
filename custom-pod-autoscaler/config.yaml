@@ -14,5 +14,6 @@ metric:
     successCodes:
       - 200
     parameterMode: query
-minReplicas: 0
+minReplicas: 1
 runMode: "per-resource"
+logVerbosity: 3

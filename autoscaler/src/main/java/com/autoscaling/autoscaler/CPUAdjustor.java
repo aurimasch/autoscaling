@@ -12,17 +12,17 @@ import java.util.Calendar;
 @Service
 public class CPUAdjustor {
 
-    private static final double UPSCALING_UPPER_MIN = 0.30;
-    private static final double UPSCALING_MID_MIN = 0.20;
-    private static final double UPSCALING_LOWER_MIN = 0.10;
+    private static final double UPSCALING_UPPER_MIN = 0.35;
+    private static final double UPSCALING_MID_MIN = 0.30;
+    private static final double UPSCALING_LOWER_MIN = 0.25;
 
     private static final double UPSCALING_UPPER_MAX = 0.80;
     private static final double UPSCALING_MID_MAX = 0.70;
     private static final double UPSCALING_LOWER_MAX = 0.60;
 
     public static final double DOWNSCALING_UPPER_MIN = 0.10;
-    public static final double DOWNSCALING_MID_MIN = 0.20;
-    public static final double DOWNSCALING_LOWER_MIN = 0.30;
+    public static final double DOWNSCALING_MID_MIN = 0.17;
+    public static final double DOWNSCALING_LOWER_MIN = 0.25;
 
     public static final double DOWNSCALING_UPPER_MAX = 0.40;
     public static final double DOWNSCALING_MID_MAX = 0.50;

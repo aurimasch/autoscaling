@@ -8,7 +8,7 @@ wait
 echo -e "${GREEN}CPA removed${NC}"
 
 VERSION=v1.2.0
-kubectl remove deployment custom-pod-autoscaler-operator
+kubectl delete deployment custom-pod-autoscaler-operator
 wait
 echo -e "${GREEN}CPA operator removed${NC}"
 

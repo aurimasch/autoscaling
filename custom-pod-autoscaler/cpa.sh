@@ -10,7 +10,7 @@ sudo docker build -t olesiapoz/http-request:latest .
 sudo docker push  olesiapoz/http-request:latest
 wait
 echo "Build custom sclare image"
-
+sleep 5
 kubectl apply -f ./cpa.yaml
 wait
 echo "Deploy to kubernetes"

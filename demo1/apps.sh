@@ -8,6 +8,6 @@ wait
 
 echo "docker file build and pushed"
 
-( cd src/main/kube &&  kubectl apply -f deployment.yml -f service.yml )
+( cd src/main/kube &&  kubectl apply -f deployment.yml -f service.yml -f service-monitor.yml)
 wait
 echo "Deployed"

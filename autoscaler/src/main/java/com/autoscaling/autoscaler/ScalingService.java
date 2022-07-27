@@ -34,6 +34,7 @@ public class ScalingService {
         }
 
         if (shouldUpScale(lastKnownAvgCPU, txVelocity)) {
+            System.out.println("Trying to upscale");
 
             if (currentReplicas >= MAX_REPLICAS)
                 return currentReplicasFromAutoscaler;
@@ -64,6 +65,9 @@ public class ScalingService {
         }
 
         if (shouldDownScale(lastKnownAvgCPU, txVelocity)) {
+             System.out.println("Trying to downscale. Current replicas:" + currentReplicas);
+              System.out.println( "and from Autoscaler" + currentReplicasFromAutoscaler);
+            
             if (currentReplicas <=1)
                 return null;
 
@@ -115,8 +119,10 @@ public class ScalingService {
     }
 
     public Integer calculateDownscalingTargetReplicas(Integer currentReplicas, Velocity velocity, AvgCPU lastKnownAvgCPU) {
+        System.out.println("I will devide" + lastKnownAvgCPU.getValue() + "by" + BigDecimal.valueOf(determineDownScalingCPUThreshold(velocity, lastKnownAvgCPU)));
+
         Integer desiredReplicas = (int) Math.floor(BigDecimal.valueOf(lastKnownAvgCPU.getValue()).divide(BigDecimal.valueOf(determineDownScalingCPUThreshold(velocity, lastKnownAvgCPU)), RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(currentReplicas)).doubleValue());
-        System.out.println("Desired replicas " + desiredReplicas);
+        System.out.println("Desired downscaling replicas " + desiredReplicas);
 
         if (volatilityService.isVolatile()) {
             System.out.println("Due to volatility decreasing by 1 replica");
@@ -128,6 +134,8 @@ public class ScalingService {
             return desiredReplicas;
         }
 
+
+        System.out.println("I will devide" + desiredReplicas + "by" + velocity.getDecreaseFactor());
         Integer targetReplicas = (int)Math.ceil(BigDecimal.valueOf(desiredReplicas).divide(BigDecimal.valueOf(velocity.getDecreaseFactor()), RoundingMode.HALF_UP).doubleValue());
 
         if (targetReplicas < MIN_REPLICAS)
@@ -137,6 +145,7 @@ public class ScalingService {
     }
 
     public boolean shouldUpScale(AvgCPU avgCpu, Velocity velocity) {
+        System.out.println("Should upscale");
         if (avgCpu == null)
             return false;
 
@@ -148,6 +157,7 @@ public class ScalingService {
     }
 
     public boolean shouldDownScale(AvgCPU avgCpu, Velocity velocity) {
+        System.out.println("Should downscale");
         if (avgCpu == null)
             return false;
 
@@ -161,6 +171,7 @@ public class ScalingService {
     public double determineUpScalingCPUThreshold(Velocity velocity, AvgCPU avgCPU) {
 
         CPUValues cpuValues = valuesService.getCPUSettings().getUpscalingValues();
+        System.out.println("UpscaleValues derminated as " + cpuValues);
 
         if(avgCPU.getValue() > 0.90) {
             System.out.println("Possible a peek. Ignoring Velocity");
@@ -181,7 +192,7 @@ public class ScalingService {
 
     public double determineDownScalingCPUThreshold(Velocity velocity, AvgCPU avgCPU) {
         CPUValues cpuValues = valuesService.getCPUSettings().getDownscalingValues();
-
+         System.out.println("DownScale Values derminated as " + cpuValues);        
         if (avgCPU.getValue() > 0.60) {
             System.out.println("Possible increased througput. Ignoring Velocity");
             return cpuValues.getUpper();

@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: autoscaler
+  name: autoscaler
+spec:
+  endpoints:
+    - path: /actuator/prometheus
+      port: http
+  namespaceSelector:
+    matchNames:
+      - autoscaler
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: autoscaler

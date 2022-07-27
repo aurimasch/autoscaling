@@ -40,14 +40,18 @@ def main():
     # Parse provided spec into a dict
     spec = json.loads(sys.stdin.read())
     evaluate(spec)
+    
 
 def evaluate(spec):
     try:
         value = int(spec["metrics"][0]["value"])
-
         # Build JSON dict with targetReplicas
+        #with open("file.txt", "a") as f:
+         #   f.write(str(spec))
+          #  f.close()
         evaluation = {}
         evaluation["targetReplicas"] = value
+        #evaluation["targetReplicas"] = 2
 
         # Output JSON to stdout
         sys.stdout.write(json.dumps(evaluation))
