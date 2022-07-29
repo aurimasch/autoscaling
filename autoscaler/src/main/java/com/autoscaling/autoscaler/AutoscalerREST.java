@@ -19,10 +19,10 @@ public class AutoscalerREST {
 
     @GetMapping("/api/count")
     public Integer getScaleCount(@RequestParam Map<String,String> allParams) {
-       System.out.println("received" + allParams);
+       //System.out.println("received" + allParams);
        JSONObject json = new JSONObject(allParams.get("value"));
        Integer currentReplicas = json.getJSONObject("resource").getJSONObject("spec").getInt("replicas");
         System.out.println("received currentReplicas" + currentReplicas);
-       return scalingService.scale(currentReplicas);
+       return dmScalingService.scale(currentReplicas);
     }
 }

@@ -21,8 +21,8 @@ public class CPUAdjustor {
     private static final double UPSCALING_LOWER_MAX = 0.60;
 
     public static final double DOWNSCALING_UPPER_MIN = 0.10;
-    public static final double DOWNSCALING_MID_MIN = 0.17;
-    public static final double DOWNSCALING_LOWER_MIN = 0.25;
+    public static final double DOWNSCALING_MID_MIN = 0.20;
+    public static final double DOWNSCALING_LOWER_MIN = 0.30;
 
     public static final double DOWNSCALING_UPPER_MAX = 0.40;
     public static final double DOWNSCALING_MID_MAX = 0.50;

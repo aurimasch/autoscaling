@@ -25,7 +25,7 @@ public class DMScalingService {
 
     private int conservativeConstant = 5;
 
-    public static final Integer MAX_REPLICAS = 8;
+    public static final Integer MAX_REPLICAS = 10;
     public static final Integer MIN_REPLICAS = 1;
 
     private Timestamp lastTimeChecked;

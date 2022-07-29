@@ -118,6 +118,7 @@ public class PrometheusClient {
     private BTCount readMetrics()  {
         RequestEntity<Void> request = buildRequest("sum by (app) (rate(bt_count_total[30s]))");
         ResponseEntity<HashMap<String, Object>> result = restTemplate.exchange(request, responseType);
+        System.out.println(result.getBody());
         BTCount btCount = parseBTCount(result.getBody());
         System.out.println(btCount);
         return btCount;
