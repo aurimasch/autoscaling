@@ -16,7 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<dockerfile-maven-version>1.4.13</dockerfile-maven-version>
-		<docker.image.prefix>olesiapoz</docker.image.prefix>
+		<docker.image.prefix><enter your registry name></docker.image.prefix>
 	</properties>
 
 
@@ -108,7 +108,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<repository>olesiapoz/demo1</repository>
+							<repository><enter your registry name>/demo1</repository>
 							<tag>latest</tag>
 							<buildArgs>
 								<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>

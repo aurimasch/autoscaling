@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: autoscaler
-          image: olesiapoz/autoscaler:latest
+          image: <enter your registry name>/autoscaler:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

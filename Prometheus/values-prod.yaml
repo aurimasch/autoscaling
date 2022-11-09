@@ -69,7 +69,7 @@ alertmanager:
   prefixURL: ""
 
   ## External URL which can access alertmanager
-  baseURL: "http://phd-demo1.swedencentral.cloudapp.azure.com:9093"
+  baseURL: "http://<enter DNS name of your AZ load balancer>:9093"
 
   ## Additional alertmanager container environment variable
   ## For instance to add a http_proxy
@@ -1300,7 +1300,7 @@ serverFiles:
       - job_name: prometheus
         static_configs:
           - targets:
-            - phd-demo1.swedencentral.cloudapp.azure.com:9090
+            - <enter DNS name of your AZ load balancer>:9090
 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)

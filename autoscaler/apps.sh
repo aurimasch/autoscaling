@@ -5,7 +5,7 @@ sudo mvn clean install -P docker
 wait
 echo "docker file build"
 
-sudo docker push olesiapoz/autoscaler:latest
+sudo docker push <enter your registry name>/autoscaler:latest
 wait 
 echo "Autoscaler pushed"
 sleep 3

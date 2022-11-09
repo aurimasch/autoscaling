@@ -11,7 +11,7 @@ metadata:
 spec:
   containers:
     - name: demo1
-      image: olesiapoz/demo1
+      image: <enter your registry name>/demo1
       imagePullPolicy: Always
       ports:
       - containerPort: 30036

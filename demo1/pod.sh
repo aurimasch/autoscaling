@@ -3,7 +3,7 @@
 sudo mvn clean install -P docker
 wait
 
-sudo docker push olesiapoz/demo1:latest
+sudo docker push <enter your registry name>/demo1:latest
 wait
 
 echo "docker file build and pushed"

@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
       - name: http-request
-        image: olesiapoz/http-request:latest
+        image: <enter your registry name>/http-request:latest
         imagePullPolicy: Always
   scaleTargetRef:
     apiVersion: apps/v1
