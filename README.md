@@ -2,7 +2,7 @@
 
 ## Using scripts
 
-Use build scripts, install your JMeter to /opt/jmeter/bin
+If you want to use install scripts for deployment and testing on AKS, install your JMeter to /opt/jmeter/bin
 
 Enter your container registry name instead of ```<enter your registry name>``` label
 
