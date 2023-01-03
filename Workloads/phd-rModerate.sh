@@ -1,4 +1,4 @@
 #!/bin/bash
 while true;
-do ./phd-moderate.sh ;
+do ./phd-Moderate.sh ;
 done
