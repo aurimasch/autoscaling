@@ -1,4 +1,4 @@
-FROM openjdk:11.0.7-jre-slim-buster
+FROM openjdk:11.0.16-jre-slim-buster
 VOLUME /tmp
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
